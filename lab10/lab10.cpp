@@ -5,7 +5,7 @@
 
 using namespace std;
 void ypac(int* mass1, int len, int* cc);
-
+void unpac(int* count, int* unpac1, int len);
 int main()
 {
     cout << "Введите длину массива(n>1000): \n"; 
@@ -15,11 +15,13 @@ int main()
         cout << "Длина массива меньше 1000 :( ";
         return 0;
     }
+
     int* mass = new int[n];
     srand(time(NULL));
     for (int i = 0; i < n; i++) {
         mass[i] = rand() % 17 + 0;
     }
+
     int temp;
     // отсортировка 
     for (int i = 0; i < n - 1; i++) {
@@ -40,8 +42,11 @@ int main()
     // ПУНКТ А
     //массив счетчик
     int count[18];
+    // Упаковка
     ypac(mass, n, count);
+    // Счетчик
     int tcount = 0;
+
     cout << "-------------------------------------------------------------------------------------------\n";
     cout << "Упакованный массив чисел: \n";
     // вывод чисел которые есть в массиве
@@ -51,10 +56,23 @@ int main()
             tcount += count[i];
         }
     }
-    delete[] mass;
+
+    // ПУНКТ Б 
+    cout << "-------------------------------------------------------------------------------------------\n";
+    int* unpac1 = new int[n];
+    int idx = 0;
+    cout << "Распакованный массив: \n";
+    unpac(count, unpac1, n);
+    for (int i = 0; i < n; i++) {
+        cout << unpac1[i] << " ";
+    }
+
+
+
     return 0;
 }
 
+// Функция упаковки
 void ypac(int* mass1, int len, int* cc) {
     for (int i = 0; i < 18; i++) {
         cc[i] = 0;
@@ -64,3 +82,16 @@ void ypac(int* mass1, int len, int* cc) {
         cc[val]++;
     }
 }
+    // Функция распаковки
+    void unpac(int* count, int* unpac1, int len) {
+        int idx = 0; 
+
+        for (int k = 0; k < 18; k++) {
+            for (int t = 0; t < count[k]; t++) {
+                if (idx < len) { 
+                    unpac1[idx] = k;
+                    idx++;
+                }
+            }
+        }
+    }
